@@ -1,5 +1,5 @@
 
-package com.miclir.lockmypass;
+package com.miclir.lockmypass.activities;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.miclir.lockmypass.R;
 import com.miclir.lockmypass.utils.PasswordGenerator;
 
 /**

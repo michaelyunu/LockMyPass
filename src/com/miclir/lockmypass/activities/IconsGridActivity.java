@@ -1,5 +1,5 @@
 
-package com.miclir.lockmypass;
+package com.miclir.lockmypass.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+
+import com.miclir.lockmypass.R;
 import com.miclir.lockmypass.adapters.IconsAdapter;
 
 public class IconsGridActivity extends Activity

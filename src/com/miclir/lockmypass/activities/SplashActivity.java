@@ -1,9 +1,11 @@
 
-package com.miclir.lockmypass;
+package com.miclir.lockmypass.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.miclir.lockmypass.R;
 
 public class SplashActivity extends Activity
 {

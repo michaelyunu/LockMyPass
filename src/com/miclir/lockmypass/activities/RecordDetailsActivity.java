@@ -1,5 +1,5 @@
 
-package com.miclir.lockmypass;
+package com.miclir.lockmypass.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.miclir.lockmypass.R;
 import com.miclir.lockmypass.entities.Record;
 import com.miclir.lockmypass.managers.IconsManager;
 import com.miclir.lockmypass.managers.RecordsManager;

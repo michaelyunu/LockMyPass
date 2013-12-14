@@ -1,5 +1,5 @@
 
-package com.miclir.lockmypass;
+package com.miclir.lockmypass.activities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.miclir.lockmypass.RecordDetailsActivity.LaunchType;
+
+import com.miclir.lockmypass.R;
+import com.miclir.lockmypass.activities.RecordDetailsActivity.LaunchType;
 import com.miclir.lockmypass.adapters.RecordAdapter;
 import com.miclir.lockmypass.entities.Record;
 import com.miclir.lockmypass.managers.RecordsManager;

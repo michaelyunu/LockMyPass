@@ -1,5 +1,5 @@
 
-package com.miclir.lockmypass;
+package com.miclir.lockmypass.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.miclir.lockmypass.R;
 import com.miclir.lockmypass.managers.RecordsManager;
 
 /**
