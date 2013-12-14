@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/lockmypass/!svn/ver/1/LockMyPass
+END
+proguard-project.txt
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/lockmypass/!svn/ver/2/LockMyPass/proguard-project.txt
+END
+AndroidManifest.xml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/lockmypass/!svn/ver/13/LockMyPass/AndroidManifest.xml
+END
+project.properties
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/lockmypass/!svn/ver/2/LockMyPass/project.properties
+END
+.project
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/lockmypass/!svn/ver/2/LockMyPass/.project
+END
+.classpath
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/lockmypass/!svn/ver/2/LockMyPass/.classpath
+END

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, LockMyPassSplash!</string>
+    <string name="app_name">LockMyPass</string>
+    <string name="lblPassword">Password</string>
+    <string name="lblUsername">Username</string>
+    <string name="lblSettingsResetCredentials">Reset my credentials</string>
+    <string name="lblSettingsDeleteDatabase">Clean database</string>
+    <string name="lblSettingsPasswordGenerator">Password generator</string>
+    <string name="lblSettingsSelfDestruct">Self destruct</string>
+    <string name="lblSettingsLogout">Logout</string>
+    <string name="lblPasswordGeneratorLegnth">Password legnth</string>
+    <string name="lblPasswordGeneratorUseLetters">Use letters</string>
+    <string name="lblPasswordGeneratorUseNumbers">Use numbers</string>
+    <string name="lblPasswordGeneratorUseUpperCase">Use upper case</string>
+    <string name="btnPasswordGeneratorGenerate">"     Generate"</string>
+    <string name="dtlsAlias">"Alias: "</string>
+    <string name="dtlsUserName">"Username: "</string>
+    <string name="dtlsPassword">"Password: "</string>
+    <string name="dtlsChangeImage">Change image</string>
+    <!--
+    <string name="categories_email">Email</string>
+    <string name="categories_web">Web</string>
+    <string name="categories_bank">Bank</string>
+    <string name="categories_credit">Credit</string>
+    <string name="categories_wallet">Waller</string>
+    <string name="categories_ids">IDs</string>
+    <string name="categories_notes">Notes</string>
+    <string name="categories_contacts">Contacts</string>
+    <string name="categories_other">other</string>
+    -->
+    <string name="contextMenuCopyPassword">Copy password to clipboard</string>
+    <string name="contextMenuCopyUsername">Copy username to clipboard</string>
+    <string name="contextMenuDeleteRecord">Delete record</string>
+    <string name="contextMenuEditRecord">Edit record</string>
+    <string name="contextMenuViewRecord">View record</string>
+    <string name="btnNewUser">"New user"</string>
+    <string name="btnLogin">"Login"</string>
+    <string name="use_special_chars">Use special chars</string>
+    <string name="lblPasswordGeneratorUserSpecialChars">Use special chars</string>
+    <string name="btnPasswordGeneratorCopy">Copy</string>
+    <string name="email">Email</string>
+    <string name="web">Web</string>
+    <string name="bank">Bank</string>
+    <string name="credit">Credit</string>
+    <string name="wallet">Wallet</string>
+    <string name="ids">IDs</string>
+    <string name="notes">Notes</string>
+    <string name="contacts">Contacts</string>
+    <string name="other">Other</string>
+</resources>

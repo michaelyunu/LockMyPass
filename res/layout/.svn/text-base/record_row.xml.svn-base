@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:id="@+id/rel6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="5dp" >
+        <FrameLayout
+            android:id="@+record_row/iconFrameLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/lock_edit_icon_back" />
+            <ImageView
+                android:id="@+record_row/ivRecordIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/lock_details_default_icon" />
+        </FrameLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+record_row/iconFrameLayout"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+record_row/iconFrameLayout"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dtlsAlias"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#09b2c1"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+record_row/tvAlias"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="Initial alias"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dtlsUserName"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#09b2c1"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+record_row/tvUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Initial username"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dtlsPassword"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#09b2c1"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+record_row/tvPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Initial password"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

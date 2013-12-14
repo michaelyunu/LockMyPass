@@ -1,0 +1,443 @@
+
+package com.miclir.lockmypass.datalayer;
+
+import java.util.ArrayList;
+import java.util.List;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.provider.BaseColumns;
+import android.util.Log;
+import com.miclir.lockmypass.encryption.Encrypter;
+import com.miclir.lockmypass.encryption.MD5Utility;
+import com.miclir.lockmypass.entities.Record;
+
+/**
+ * @author Michael & Liron
+ * 
+ */
+public class RecordsManager implements IRecordsManager
+{
+	
+	/**
+	 * logging tag
+	 */
+	private static final String		TAG			= "RecordManager";
+	/**
+	 * current user that signed in to the system right now
+	 */
+	public String					currentSignedInUser;
+	private Context					myContext;
+	private Encrypter				encrypter;
+	/**
+	 * insatnce of the singeltone RecordManager class
+	 */
+	private static RecordsManager	instance	= null;
+	
+	
+	/**
+	 * private constructor for singleton implementation
+	 */
+	private RecordsManager()
+	{
+		
+	}
+	
+	
+	/**
+	 * @return instance of the RecordsManager class
+	 */
+	public static RecordsManager getInstance()
+	{
+		Log.d(TAG, "getIntance() initiated");
+		if ( instance == null )
+		{
+			instance = new RecordsManager();
+			
+		}
+		return instance;
+		
+	}
+	
+	
+	@Override
+	public boolean createNewUser(Context context, String username, String password)
+	{
+		boolean isSucceded;
+		String stringForEncription = password.concat(password);
+		try
+		{
+			
+			String [] vec = new String[ ]
+			{
+					BaseColumns._ID,
+					PasswordsProvider.Passwords.AppUsers.APP_USERNAME,
+					PasswordsProvider.Passwords.AppUsers.APP_PASSWORD,
+			};
+			Cursor cursor = context.getContentResolver().query(
+					PasswordsProvider.Passwords.ContentURIs.APP_USERS_CONTENT_URI,
+					vec, // Select clause
+					PasswordsProvider.Passwords.AppUsers.APP_USERNAME + "= '" + username + "' ",// Where
+					// clause
+					null,// selection arguments... in this case none
+					PasswordsProvider.Passwords.DEFAULT_SORT_ORDER); // order by
+			
+			if ( cursor.getCount() == 0 )
+			{
+				Log.d(TAG, "Username " + username + " not exists in the database.");
+				
+				String passwordMD5 = MD5Utility.getMD5(stringForEncription);
+				ContentValues values = new ContentValues();
+				values.put(PasswordsProvider.Passwords.AppUsers.APP_USERNAME, username);
+				values.put(PasswordsProvider.Passwords.AppUsers.APP_PASSWORD, passwordMD5);
+				Log.d(TAG, "MD5 of:" + stringForEncription + ",is: " + passwordMD5);
+				try
+				{
+					context.getContentResolver().insert(PasswordsProvider.Passwords.ContentURIs.APP_USERS_CONTENT_URI, values);
+					currentSignedInUser = username;
+					isSucceded = true;
+				}
+				catch (Exception e)
+				{
+					Log.e(TAG, e.getMessage());
+					isSucceded = false;
+				}
+				
+			}
+			else
+			{
+				isSucceded = false;
+			}
+			cursor.close();
+		}
+		catch (Exception exception)
+		{
+			Log.e(TAG, exception.getMessage());
+			exception.printStackTrace();
+			isSucceded = false;
+		}
+		
+		return isSucceded;
+	}
+	
+	
+	/**
+	 * @return Boolean value indicating if the application contains a logged in user.
+	 */
+	public boolean isUserLoggedIn()
+	{
+		Log.d(TAG, "isUserLoggedIn() currentSignedInUser = " + currentSignedInUser);
+		return currentSignedInUser != null;
+	}
+	
+	
+	@Override
+	public boolean AuthenticateUser(Context context, String username, String password)
+	{
+		Log.d(TAG, "isUserAuthenticated() with " +
+				" username = " + username +
+				" password = " + password);
+		boolean isSucceeded;
+		String stringForEncription = password.concat(password);
+		Cursor cursor = null;
+		String [] vec = new String[ ]
+		{
+				PasswordsProvider.Passwords.AppUsers.APP_USERNAME,
+		};
+		
+		try
+		{
+			cursor = context.getContentResolver().query(
+					PasswordsProvider.Passwords.ContentURIs.APP_USERS_CONTENT_URI,
+					vec, 																// Select clause
+					PasswordsProvider.Passwords.AppUsers.APP_USERNAME + "=?" +
+							"  AND " +
+							PasswordsProvider.Passwords.AppUsers.APP_PASSWORD + " =?",	//Where clause
+					new String[ ] { username, MD5Utility.getMD5(stringForEncription) },			// selection arguments
+					null);
+			if ( cursor.getCount() == 1 )
+			{
+				try
+				{
+					encrypter = Encrypter.getInstance(stringForEncription);
+					currentSignedInUser = username;
+					isSucceeded = true;
+				}
+				catch (Exception exception)
+				{
+					isSucceeded = false;
+					Log.e(TAG, "can't get instace of the encrypter");
+					exception.printStackTrace();
+				}
+				
+			}
+			else
+			{
+				isSucceeded = false;
+			}
+		}
+		catch (Exception exception)
+		{
+			Log.e(TAG, exception.getMessage());
+			exception.printStackTrace();
+			isSucceeded = false;
+		}
+		
+		finally
+		{
+			cursor.close();
+		}
+		if ( isSucceeded == false )
+		{
+			Log.e(TAG, "Can't authonticate user");
+		}
+		else
+		{
+			Log.e(TAG, "User authonticated successfully");
+		}
+		return isSucceeded;
+	}
+	
+	
+	@Override
+	public void logoutUser()
+	{
+		Log.d(TAG, "logoutUser() initiated. currentSignedInUser  = " + currentSignedInUser);
+		currentSignedInUser = null;
+	}
+	
+	
+	@Override
+	public List < Record > getRecordsByCategory(Context context, String category)
+	{
+		Log.d(TAG, "getRecordsByCategory() with " +
+				" Category = " + category +
+				" Username = " + currentSignedInUser);
+		
+		List < Record > records = new ArrayList < Record >();
+		String [] vec = new String[ ]
+		{
+				BaseColumns._ID,
+				PasswordsProvider.Passwords.Records.RECORD_USERNAME,
+				PasswordsProvider.Passwords.Records.RECORD_PASSWORD,
+				PasswordsProvider.Passwords.Records.ALIAS,
+				PasswordsProvider.Passwords.Records.CATEGORY,
+				PasswordsProvider.Passwords.Records.IMAGE_ID,
+		};
+		
+		Cursor cursor = context.getContentResolver().query(
+				PasswordsProvider.Passwords.ContentURIs.USERNAMES_PASSWORDS_CONTENT_URI,
+				vec,
+				PasswordsProvider.Passwords.AppUsers.APP_USERNAME + " =?" + " AND " + PasswordsProvider.Passwords.Records.CATEGORY + " =?",
+				new String[ ] { currentSignedInUser, category }, null);
+		
+		Log.d(TAG, "getRecordsByCategory() found " + cursor.getCount() + " records matching " +
+				" category = '" + category +
+				"' and user = '" + currentSignedInUser + "'");
+		
+		for(cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext())
+		{
+			records.add(new Record(
+					cursor.getString(cursor.getColumnIndex(BaseColumns._ID)),
+					cursor.getString(cursor.getColumnIndex(PasswordsProvider.Passwords.Records.ALIAS)),
+					cursor.getString(cursor.getColumnIndex(PasswordsProvider.Passwords.Records.CATEGORY)),
+					cursor.getString(cursor.getColumnIndex(PasswordsProvider.Passwords.Records.RECORD_USERNAME)),
+					cursor.getString(cursor.getColumnIndex(PasswordsProvider.Passwords.Records.RECORD_PASSWORD)),
+					cursor.getInt(cursor.getColumnIndex(PasswordsProvider.Passwords.Records.IMAGE_ID))));
+		}
+		
+		cursor.close();
+		return records;
+	}
+	
+	
+	public boolean wipeUsersData(Context context)
+	{
+		//TODO
+		return true;
+	}
+	
+	
+	public boolean wipeAllData(Context context)
+	{
+		//TODO
+		return true;
+	}
+	
+	
+	@Override
+	public boolean addRecord(Context context, Record recordToAdd)
+	{
+		Log.d(TAG, "addRecord() with " +
+				" recordToAdd = " + recordToAdd +
+				" category = " + recordToAdd.getCategory() +
+				" user = " + currentSignedInUser);
+		
+		boolean isSucceded;
+		
+		String [] vec = new String[ ]
+		{
+				BaseColumns._ID,
+				PasswordsProvider.Passwords.Records.ALIAS,
+				PasswordsProvider.Passwords.Records.RECORD_USERNAME,
+				PasswordsProvider.Passwords.Records.RECORD_PASSWORD,
+				PasswordsProvider.Passwords.Records.CATEGORY,
+				PasswordsProvider.Passwords.Records.IMAGE_ID,
+		};
+		
+		ContentValues values = new ContentValues();
+		values.put(PasswordsProvider.Passwords.AppUsers.APP_USERNAME, currentSignedInUser);
+		values.put(PasswordsProvider.Passwords.Records.ALIAS, recordToAdd.getAlias());
+		values.put(PasswordsProvider.Passwords.Records.RECORD_USERNAME, recordToAdd.getUsername());
+		values.put(PasswordsProvider.Passwords.Records.RECORD_PASSWORD, recordToAdd.getPassword());
+		values.put(PasswordsProvider.Passwords.Records.CATEGORY, recordToAdd.getCategory());
+		values.put(PasswordsProvider.Passwords.Records.IMAGE_ID, recordToAdd.getImageID());
+		
+		try
+		{
+			context.getContentResolver().insert(
+					PasswordsProvider.Passwords.ContentURIs.USERNAMES_PASSWORDS_CONTENT_URI, values);
+			isSucceded = true;
+			Log.d(TAG, "Record added successfully.");
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, "Error while adding record.");
+			Log.e(TAG, e.getMessage());
+			isSucceded = false;
+		}
+		return isSucceded;
+	}
+	
+	
+	@Override
+	public boolean deleteRecordByRecordID(Context context, Record recordToDelete)
+	{
+		Log.d(TAG, "deleteRecordByRecordID() with " +
+				" recordToDelete = " + recordToDelete.getIdInDatabase() +
+				" user = " + currentSignedInUser);
+		boolean isQuerySucceeded = true;
+		
+		try
+		{
+			int numberOfDeletedRows = context.getContentResolver().delete(
+					PasswordsProvider.Passwords.ContentURIs.USERNAMES_PASSWORDS_CONTENT_URI,
+					BaseColumns._ID + "=?",
+					new String[ ] { recordToDelete.getIdInDatabase().toString() });
+			if ( numberOfDeletedRows == 1 )
+			{
+				isQuerySucceeded = true;
+				Log.d(TAG, "deleted 1 row");
+			}
+			else
+			{
+				isQuerySucceeded = false;
+				Log.d(TAG, "Deleted more then 1 row matching id = " + recordToDelete.getIdInDatabase());
+			}
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, e.getMessage());
+			isQuerySucceeded = false;
+		}
+		
+		return isQuerySucceeded;
+	}
+	
+	
+	@Override
+	public boolean updateRecord(Context context, Record recordToUpdate)
+	{
+		
+		Log.d(TAG, "updateRecord() with " +
+				" recordToUpdate = " + recordToUpdate);
+		boolean isQuerySucceeded = true;
+		
+		ContentValues values = new ContentValues();
+		values.put(PasswordsProvider.Passwords.AppUsers.APP_USERNAME, currentSignedInUser);
+		values.put(PasswordsProvider.Passwords.Records.ALIAS, recordToUpdate.getAlias());
+		values.put(PasswordsProvider.Passwords.Records.RECORD_USERNAME, recordToUpdate.getUsername());
+		values.put(PasswordsProvider.Passwords.Records.RECORD_PASSWORD, recordToUpdate.getPassword());
+		values.put(PasswordsProvider.Passwords.Records.CATEGORY, recordToUpdate.getCategory());
+		values.put(PasswordsProvider.Passwords.Records.IMAGE_ID, recordToUpdate.getImageID());
+		try
+		{
+			int numberOfUpdatedRows = context.getContentResolver().update(
+					PasswordsProvider.Passwords.ContentURIs.USERNAMES_PASSWORDS_CONTENT_URI,
+					values,
+					BaseColumns._ID + "=?",
+					new String[ ] { recordToUpdate.getIdInDatabase() });
+			if ( numberOfUpdatedRows == 1 )
+			{
+				Log.d(TAG, "Updated one row for id = " + recordToUpdate.getIdInDatabase());
+				isQuerySucceeded = true;
+			}
+			else
+			{
+				Log.e(TAG, "Error while updating rows. found " + numberOfUpdatedRows + " matching recordId = " + recordToUpdate.getIdInDatabase());
+				isQuerySucceeded = false;
+			}
+			
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, e.getMessage());
+			isQuerySucceeded = false;
+		}
+		return isQuerySucceeded;
+	}
+	
+	
+	@Override
+	public boolean cleanDatabase(Context context)
+	{
+		Log.d(TAG, "cleanDatabase() initiated.");
+		
+		// TODO ADD IMPLEMENATION OF THE QUERY
+		
+		boolean isQuerySucceeded = true;  	// the constant true value should be changed by query's
+											// result
+		if ( isQuerySucceeded )
+		{
+			Log.d(TAG, "Database was cleaned successfully.");
+			return true;
+		}
+		else
+		{
+			Log.e(TAG, "Error while cleaning database.");
+			return false;
+		}
+	}
+	
+	
+	@Override
+	public boolean updateUserPassword(Context context, String newPassword)
+	{
+		Log.d(TAG, "updateUserPassword() with" +
+				"newPassword initated");
+		
+		// TODO ADD IMPLEMENATION OF THE QUERY
+		// Important - remember to check the currentSignedInUser when updating the password
+		
+		boolean isQuerySucceeded = true;  	// the constant true value should be changed by query's
+											// result
+		if ( isQuerySucceeded )
+		{
+			Log.d(TAG, "Password was updated successfully.");
+			return true;
+		}
+		else
+		{
+			Log.e(TAG, "Error while updating password.");
+			return false;
+		}
+	}
+	
+	
+	@Override
+	public String getLoggedInUser()
+	{
+		return currentSignedInUser;
+	}
+	
+}

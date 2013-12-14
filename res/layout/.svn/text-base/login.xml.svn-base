@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lock_background"
+    android:orientation="vertical" >
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/lock_login_black_frame" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:weightSum="1" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:paddingBottom="25dp"
+                    android:paddingTop="25dp"
+                    android:text="@string/lblUsername"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                <EditText
+                    android:id="@+login/etUsername"
+                    android:layout_width="135dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:inputType="text" >
+                    <requestFocus />
+                </EditText>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:paddingBottom="25dp"
+                    android:paddingTop="25dp"
+                    android:text="@string/lblPassword"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                <EditText
+                    android:id="@+login/etPassword"
+                    android:layout_width="138dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+    <ImageView
+        android:id="@+login/ivTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/lock_login_title" />
+    <RelativeLayout
+        android:id="@+id/rel7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp" >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingRight="10dp" >
+            <Button
+                android:id="@+login/btnCreateNewUser"
+                android:layout_width="140dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/lock_login_green_button" />
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+login/btnCreateNewUser"
+                android:layout_alignBottom="@+login/btnCreateNewUser"
+                android:layout_centerHorizontal="true"
+                android:text="@string/btnNewUser"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#FFFFFFFF" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="10dp" >
+            <Button
+                android:id="@+login/btnLogin"
+                android:layout_width="140dp"
+                android:layout_height="60dp"
+                android:background="@drawable/lock_login_green_button" />
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+login/btnLogin"
+                android:layout_alignBottom="@+login/btnLogin"
+                android:layout_centerHorizontal="true"
+                android:text="@string/btnLogin"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#FFFFFFFF" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

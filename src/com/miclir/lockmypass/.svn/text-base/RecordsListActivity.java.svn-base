@@ -1,0 +1,210 @@
+
+package com.miclir.lockmypass;
+
+import java.util.ArrayList;
+import java.util.List;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.ClipboardManager;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.miclir.lockmypass.RecordDetailsActivity.LaunchType;
+import com.miclir.lockmypass.adapters.RecordAdapter;
+import com.miclir.lockmypass.datalayer.RecordsManager;
+import com.miclir.lockmypass.entities.Record;
+
+public class RecordsListActivity extends ListActivity
+{
+	
+	private final String			TAG		= RecordsListActivity.class.getSimpleName();
+	private List < Record >			records	= new ArrayList < Record >();
+	private Record					selectedRecord;
+	private final RecordsManager	manager	= RecordsManager.getInstance();
+	private String					selectedCategory;
+	private ImageView				ivWatermark;
+	private ListView				listView;
+	private TextView				lblCategory;
+	private Button					btnAddNewRecord;
+	private RecordAdapter			adapter;
+	
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		Log.d(TAG, "OnCreate()");
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.records_list);
+		
+		listView = (ListView) findViewById(android.R.id.list);
+		lblCategory = (TextView) findViewById(R.record_list.lblHeader);
+		btnAddNewRecord = (Button) findViewById(R.record_list.btnAddNewRecord);
+		selectedCategory = (String) getIntent().getExtras().get("ListType");
+		lblCategory.setText(selectedCategory);
+		
+		btnAddNewRecord.setOnClickListener(new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				Intent intent = new Intent(RecordsListActivity.this, RecordDetailsActivity.class);
+				intent.putExtra(RecordDetailsActivity.INTENT_EXTRAS_LAUNCH_TYPE, LaunchType.AddRecord);
+				intent.putExtra(RecordDetailsActivity.INTENT_EXTRAS_SELECTED_CATEGORY, selectedCategory);
+				startActivity(intent);
+				
+			}
+		});
+		registerForContextMenu(listView);
+		refreshRecordsList();
+		adapter = new RecordAdapter(getApplicationContext(), records);
+		listView.setAdapter(adapter);
+		
+	}
+	
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Choose your action:");
+		menu.setHeaderIcon(android.R.drawable.ic_menu_preferences);
+		
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+		int itemPosition = info.position;
+		
+		if ( itemPosition != -1 )
+		{
+			selectedRecord = records.get(itemPosition);
+		}
+		
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
+	}
+	
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		Intent intent = null;
+		ClipboardManager clipboard;
+		boolean sholudStartIntent = false;
+		LaunchType detailsScreenLaunchType = null;
+		switch( item.getItemId() )
+		{
+		
+			case R.menu.delete :
+				AlertDialog.Builder deleteDialogBuilder = new Builder(this);
+				deleteDialogBuilder.setCancelable(true);
+				deleteDialogBuilder.setIcon(android.R.drawable.ic_menu_delete);
+				deleteDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+				{
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						if ( manager.deleteRecordByRecordID(RecordsListActivity.this, selectedRecord) == true )
+						{
+							Toast.makeText(RecordsListActivity.this, "Record was deleted successfuly", Toast.LENGTH_LONG).show();
+						}
+						refreshRecordsList();
+					}
+					
+				});
+				deleteDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener()
+				{
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.cancel();
+						
+					}
+				});
+				deleteDialogBuilder.setTitle("Alert");
+				deleteDialogBuilder.setMessage("Are you sure you want to delete this record?");
+				
+				AlertDialog deleteDialog = deleteDialogBuilder.create();
+				deleteDialog.show();
+				
+				break;
+			case R.menu.edit :
+				sholudStartIntent = true;
+				intent = new Intent(RecordsListActivity.this, RecordDetailsActivity.class);
+				detailsScreenLaunchType = LaunchType.EditRecord;
+				break;
+			case R.menu.view :
+				sholudStartIntent = true;
+				intent = new Intent(RecordsListActivity.this, RecordDetailsActivity.class);
+				detailsScreenLaunchType = LaunchType.ViewRecord;
+				break;
+			case R.menu.copyUsername :
+				sholudStartIntent = false;
+				clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+				String recordUseranme = selectedRecord.getUsername().toString();
+				clipboard.setText(recordUseranme);
+				Toast.makeText(this, "'" + recordUseranme + "' was copied to the clipboard.", Toast.LENGTH_SHORT).show();
+				break;
+			case R.menu.copyPassword :
+				sholudStartIntent = false;
+				clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+				String recordPassword = selectedRecord.getUsername().toString();
+				clipboard.setText(recordPassword);
+				Toast.makeText(this, "'" + recordPassword + "' was copied to the clipboard.", Toast.LENGTH_SHORT).show();
+				break;
+		
+		}
+		if ( sholudStartIntent && intent != null )
+		{
+			intent.putExtra(RecordDetailsActivity.INTENT_EXTRAS_LAUNCH_TYPE, detailsScreenLaunchType);
+			intent.putExtra(RecordDetailsActivity.INTENT_EXTRAS_SELECTED_RECORD, selectedRecord);
+			startActivity(intent);
+			selectedRecord = null;
+		}
+		
+		return super.onContextItemSelected(item);
+	}
+	
+	
+	@Override
+	public void onContextMenuClosed(Menu menu)
+	{
+		super.onContextMenuClosed(menu);
+		refreshRecordsList();
+	}
+	
+	
+	@Override
+	protected void onResume()
+	{
+		Log.d(TAG, "OnResume() inititated.");
+		super.onResume();
+		refreshRecordsList();
+	}
+	
+	
+	private void refreshRecordsList()
+	{
+		Log.d(TAG, "UpdateList() inititated.");
+		records = manager.getRecordsByCategory(this, selectedCategory);
+		Log.d(TAG, "Amount of values in the records list = " + records.size());
+		adapter = null;
+		adapter = new RecordAdapter(getApplicationContext(), records);
+		listView.setAdapter(adapter);
+	}
+}

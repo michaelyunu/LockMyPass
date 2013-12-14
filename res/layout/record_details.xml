@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+settings/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lock_background" >
+    <RelativeLayout
+        android:id="@+record/RelativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/lock_settings_upper_bar"
+            android:scaleType="fitXY" />
+        <ImageView
+            android:id="@+record/ivTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/lock_settings_title" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+record/ivFooter"
+        android:layout_below="@+record/RelativeLayout2"
+        android:gravity="center_vertical" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <FrameLayout
+                    android:id="@+record/iconFrameLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:paddingLeft="20dp" >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/lock_edit_icon_back" />
+                    <ImageView
+                        android:id="@+record/ivRecordIcon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_launcher" />
+                </FrameLayout>
+                <RelativeLayout
+                    android:id="@+record/rel4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+record/iconFrameLayout"
+                    android:gravity="center" >
+                    <Button
+                        android:id="@+record/btnChangeIcon"
+                        style="@style/buttonBoldWhiteText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/lock_blue_button"
+                        android:text="@string/dtlsChangeImage" />
+                </RelativeLayout>
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/lin1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp" >
+                <RelativeLayout
+                    android:id="@+id/rel1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        style="@style/boldLable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/dtlsAlias"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                    <EditText
+                        android:id="@+record/etRecordAlias"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+settings/tvDeleteDatabase"
+                        android:layout_alignBottom="@+settings/tvDeleteDatabase"
+                        android:layout_alignParentRight="true"
+                        android:ems="10"
+                        android:inputType="textCapSentences" >
+                        <requestFocus />
+                    </EditText>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rel2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        style="@style/boldLable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dtlsUserName" />
+                    <EditText
+                        android:id="@+record/etRecordUsername"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/textView1"
+                        android:ems="10"
+                        android:inputType="text" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rel3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        style="@style/boldLable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dtlsPassword" />
+                    <EditText
+                        android:id="@+record/etRecordPassword"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/textView1"
+                        android:ems="10"
+                        android:inputType="text" />
+                </RelativeLayout>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" >
+                <Button
+                    android:id="@+record/btnAction"
+                    style="@style/buttonBoldWhiteText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/lock_login_green_button"
+                    android:text="ButtonText" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <ImageView
+        android:id="@+record/ivFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-30dp"
+        android:background="@drawable/lock_categories_lowerbar"
+        android:scaleType="fitXY" />
+</RelativeLayout>

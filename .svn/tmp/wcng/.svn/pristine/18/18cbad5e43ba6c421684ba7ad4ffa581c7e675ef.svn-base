@@ -1,0 +1,185 @@
+//
+// package com.abelski.android;
+//
+// import android.app.Activity;
+// import android.content.ContentResolver;
+// import android.content.ContentValues;
+// import android.database.Cursor;
+// import android.os.Bundle;
+// import android.provider.BaseColumns;
+// import android.widget.TextView;
+// import com.miclir.lockmypass.encryption.Encrypter;
+//
+// public class MemoActivity extends Activity
+// {
+//
+// @Override
+// public void onCreate(Bundle savedInstanceState)
+// {
+// super.onCreate(savedInstanceState);
+// StringBuilder builder = new StringBuilder();
+// TextView text = new TextView(this);
+// try
+// {
+// // declaring required local variables
+// ContentValues values = null;
+// Cursor cursor = null;
+// Encrypter de = new Encrypter();
+// // restoring state
+// super.onCreate(savedInstanceState);
+// // adding 1st record to app_users table
+// values = new ContentValues();
+// values.put(PasswordsProvider.Passwords.APP_USERNAME, de.encrypt("drlironUNFirst"));
+// values.put(PasswordsProvider.Passwords.APP_PASSWORD, de.encrypt("drlironPassFirst"));
+// getContentResolver().insert(PasswordsProvider.Passwords.APP_USERS_CONTENT_URI, values);
+// // adding 2nd record to app_users table
+// values = new ContentValues();
+// values.put(PasswordsProvider.Passwords.APP_USERNAME, "drlironUNSecond");
+// values.put(PasswordsProvider.Passwords.APP_PASSWORD, "drlironPassSecond");
+// // ///////getContentResolver().insert(PasswordsProvider.Passwords.APP_USERS_CONTENT_URI,values);
+// // adding 1st record to usernames_ppasswords table
+// values = new ContentValues();
+// values.put(PasswordsProvider.Passwords.APP_USERNAME, de.encrypt("drliron1UN"));
+// values.put(PasswordsProvider.Passwords.RECORD_USERNAME, de.encrypt("recUN1"));
+// values.put(PasswordsProvider.Passwords.RECORD_PASSWORD, de.encrypt("recPass1"));
+// values.put(PasswordsProvider.Passwords.ALIAS, de.encrypt("MYFirstBank"));
+// values.put(PasswordsProvider.Passwords.CATEGORY, de.encrypt("web"));
+// values.put(PasswordsProvider.Passwords.IMAGE_ID, de.encrypt("0"));
+// ContentResolver cn = getContentResolver();
+// cn.insert(PasswordsProvider.Passwords.USERNAMES_PASSWORDS_CONTENT_URI, values);
+// // adding 2nd record to usernames_ppasswords table
+// values = new ContentValues();
+// values.put(PasswordsProvider.Passwords.APP_USERNAME, "drliron2UN");
+// values.put(PasswordsProvider.Passwords.RECORD_USERNAME, "recUN2");
+// values.put(PasswordsProvider.Passwords.RECORD_PASSWORD, "recPass2");
+// values.put(PasswordsProvider.Passwords.ALIAS, "MYSecondBank");
+// values.put(PasswordsProvider.Passwords.CATEGORY, "web");
+// values.put(PasswordsProvider.Passwords.IMAGE_ID, "2");
+// // ////cn = getContentResolver();
+// // /////cn.insert(PasswordsProvider.Passwords.USERNAMES_PASSWORDS_CONTENT_URI,values);
+// // Defining the projections
+// String [] vec = new String[ ]
+// {
+// BaseColumns._ID,
+// PasswordsProvider.Passwords.APP_USERNAME,
+// PasswordsProvider.Passwords.APP_PASSWORD,
+// };
+// String [] vec2 = new String[ ]
+// {
+// BaseColumns._ID,
+// PasswordsProvider.Passwords.APP_USERNAME,
+// PasswordsProvider.Passwords.RECORD_USERNAME,
+// PasswordsProvider.Passwords.RECORD_PASSWORD,
+// PasswordsProvider.Passwords.CATEGORY,
+// PasswordsProvider.Passwords.ALIAS,
+// PasswordsProvider.Passwords.IMAGE_ID,
+// };
+// // getting all records from app_users table
+// cursor = managedQuery(PasswordsProvider.Passwords.APP_USERS_CONTENT_URI, vec, // specifying
+// // return
+// // columns
+// null,// specifying which rows to return.. this case all rows
+// null,// selection arguments... in this case none
+// PasswordsProvider.Passwords.APP_USERNAME + " ASC"); // ascending order by
+// if ( cursor.moveToFirst() )
+// {
+// String appUserName = null;
+// String appPassword = null;
+// String id = null;
+// int appUserNameColumn = cursor.getColumnIndex(PasswordsProvider.Passwords.APP_USERNAME);
+// int appPasswordColumn = cursor.getColumnIndex(PasswordsProvider.Passwords.APP_PASSWORD);
+// int idColumn = cursor.getColumnIndex(BaseColumns._ID);
+// do
+// {
+// id = cursor.getString(idColumn);
+// appUserName = cursor.getString(appUserNameColumn);
+// appPassword = cursor.getString(appPasswordColumn);
+// builder.append("\n\n"
+// + id + "\n"
+// + appUserName + "\n"
+// + appPassword + "\n");
+//
+// appUserName = de.decrypt(cursor.getString(appUserNameColumn));
+// appPassword = de.decrypt(cursor.getString(appPasswordColumn));
+// builder.append("\n\n"
+// + id + "\n"
+// + appUserName + "\n"
+// + appPassword + "\n");
+//
+// }
+// while (cursor.moveToNext());
+// }
+//
+// // getting all records from passwords table
+// cursor = managedQuery(PasswordsProvider.Passwords.USERNAMES_PASSWORDS_CONTENT_URI, vec2, //
+// specifying
+// // return
+// // columns
+// null,// specifying which rows to return.. this case all rows
+// null,// selection arguments... in this case none
+// PasswordsProvider.Passwords.APP_USERNAME + " ASC"); // ascending order by
+//
+// if ( cursor.moveToFirst() )
+// {
+// String appUserName = null;
+// String recUserName = null;
+// String recPassword = null;
+// String alias = null;
+// String id = null;
+// String imageId = null;
+// String category = null;
+// int appUserNameColumn = cursor.getColumnIndex(PasswordsProvider.Passwords.APP_USERNAME);
+// int recUserNameColumn = cursor.getColumnIndex(PasswordsProvider.Passwords.RECORD_USERNAME);
+// int recPasswordColumn = cursor.getColumnIndex(PasswordsProvider.Passwords.RECORD_PASSWORD);
+// int aliasColumn = cursor.getColumnIndex(PasswordsProvider.Passwords.ALIAS);
+// int idColumn = cursor.getColumnIndex(BaseColumns._ID);
+// int imageIDColumn = cursor.getColumnIndex(PasswordsProvider.Passwords.IMAGE_ID);
+// int categoryColumn = cursor.getColumnIndex(PasswordsProvider.Passwords.CATEGORY);
+// do
+// {
+// id = cursor.getString(idColumn);
+// appUserName = cursor.getString(appUserNameColumn);
+// recUserName = cursor.getString(recUserNameColumn);
+// recPassword = cursor.getString(recPasswordColumn);
+// alias = cursor.getString(aliasColumn);
+// imageId = cursor.getString(imageIDColumn);
+// category = cursor.getString(categoryColumn);
+// builder.append("\n\n"
+// + id + "\n"
+// + appUserName + "\n"
+// + recUserName + "\n"
+// + recPassword + "\n"
+// + alias + "\n"
+// + imageId + "\n"
+// + category + "\n");
+//
+// appUserName = de.decrypt(appUserName);
+// recUserName = de.decrypt(recUserName);
+// recPassword = de.decrypt(recPassword);
+// alias = de.decrypt(alias);
+// imageId = de.decrypt(imageId);
+// category = de.decrypt(category);
+//
+// builder.append("\n\n"
+// + id + "\n"
+// + appUserName + "\n"
+// + recUserName + "\n"
+// + recPassword + "\n"
+// + alias + "\n"
+// + imageId + "\n"
+// + category + "\n");
+//
+// }
+// while (cursor.moveToNext());
+// }
+// }
+// catch (Exception e)
+// {
+// builder.append(e.getMessage());
+// e.printStackTrace();
+// }
+// // TextView text = new TextView(this);
+// text.setText(builder.toString());
+// setContentView(text);
+// }
+// }

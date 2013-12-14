@@ -1,0 +1,7 @@
+com.miclir.lockmypass
+com.miclir.lockmypass.adapters
+com.miclir.lockmypass.datalayer
+com.miclir.lockmypass.encryption
+com.miclir.lockmypass.entities
+com.miclir.lockmypass.managers
+com.miclir.lockmypass.utils

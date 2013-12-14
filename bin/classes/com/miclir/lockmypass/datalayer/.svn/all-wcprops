@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/lockmypass/!svn/ver/11/LockMyPass/src/com/miclir/lockmypass/datalayer
+END
+RecordsManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lockmypass/!svn/ver/11/LockMyPass/src/com/miclir/lockmypass/datalayer/RecordsManager.java
+END
+MemoActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/lockmypass/!svn/ver/11/LockMyPass/src/com/miclir/lockmypass/datalayer/MemoActivity.java
+END
+PasswordsProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/lockmypass/!svn/ver/11/LockMyPass/src/com/miclir/lockmypass/datalayer/PasswordsProvider.java
+END
+IRecordsManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/lockmypass/!svn/ver/11/LockMyPass/src/com/miclir/lockmypass/datalayer/IRecordsManager.java
+END

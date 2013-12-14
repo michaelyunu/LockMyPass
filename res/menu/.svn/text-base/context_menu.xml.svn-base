@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+menu/view"
+        android:title="@string/contextMenuViewRecord"/>
+    <item
+        android:id="@+menu/edit"
+        android:title="@string/contextMenuEditRecord"/>
+    <item
+        android:id="@+menu/delete"
+        android:title="@string/contextMenuDeleteRecord"/>
+    <item
+        android:id="@+menu/copyUsername"
+        android:title="@string/contextMenuCopyUsername"/>
+    <item
+        android:id="@+menu/copyPassword"
+        android:title="@string/contextMenuCopyPassword"/>
+</menu>
