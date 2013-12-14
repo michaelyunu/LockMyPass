@@ -10,6 +10,9 @@ public class IconsManager
 	private static final String	TAG		= "IconsManager";
 	/**
 	 * array holding all resources of the icons
+     *
+     *
+     *
 	 */
 	private static Integer []	icons	= {
 										
